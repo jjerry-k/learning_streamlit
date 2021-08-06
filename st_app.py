@@ -20,7 +20,7 @@ st.write('Below is a DataFrame:', df, 'Above is a dataframe.')
 # c = alt.Chart(df).mark_circle().encode(x='a', y='b', size='c', color='c', tooltip=['a', 'b', 'c'])
 # st.write(c)
 
-st.text("LINE PLOT....")
+st.text("LINE PLOT USING")
 from bokeh.plotting import figure
 
 # x = np.arange(100)
@@ -34,5 +34,3 @@ fig = figure(title="Test Plot",
 
 fig.line(x, y, legend_label="Line", line_width=2)
 st.bokeh_chart(fig, use_container_width=True)
-
-st.text("BOKEH LINE CHART NOT WORKING")
