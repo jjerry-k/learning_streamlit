@@ -1,5 +1,7 @@
-# learning_streamlit
+# Learning streamlit
 
 ---
 
-classification test page using streamlit
+### Classification test page
+
+![result](fig/result.png)

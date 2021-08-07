@@ -9,6 +9,11 @@ df = pd.DataFrame(
     {'first column': [1, 2, 3, 4],
     'second column': [10, 20, 30, 40],}
     )
+
+st.text("Using Magic")
+df
+
+st.text("Using st.write")
 st.write(df)
 
 
@@ -34,3 +39,32 @@ fig = figure(title="Test Plot",
 
 fig.line(x, y, legend_label="Line", line_width=2)
 st.bokeh_chart(fig, use_container_width=True)
+
+st.text("LINE CHART USING ST")
+chart_data = pd.DataFrame(
+     np.random.randn(20, 3),
+     columns=['a', 'b', 'c'])
+
+st.line_chart(chart_data)
+
+st.text("MAP USING ST")
+map_data = pd.DataFrame(
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    columns=['lat', 'lon'])
+
+st.map(map_data)
+
+if st.checkbox('Show dataframe'):
+    chart_data = pd.DataFrame(
+       np.random.randn(20, 3),
+       columns=['a', 'b', 'c'])
+
+    chart_data
+
+
+option = st.selectbox(
+    'Which number do you like best?',
+     ["mobilenet", "resnet50", ""])
+
+'You selected: ', option
+
