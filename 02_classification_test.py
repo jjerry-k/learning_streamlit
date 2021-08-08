@@ -1,13 +1,18 @@
 import streamlit as st
-from PIL import Image
-from torchvision import transforms
-import torch
+
+import json
+from io import BytesIO
+
 import numpy as np
-import pandas as pd
+from PIL import Image
+
+import torch
+from torchvision import transforms
 import pretrainedmodels
 from efficientnet_pytorch import EfficientNet
 
-import json
+
+
 with open("imagenet_class_index.json", "r") as f:
     class_idx = json.load(f)
     idx2label = [class_idx[str(k)][1] for k in range(len(class_idx))]
@@ -24,6 +29,7 @@ available_models = [
     "inceptionv4", "inceptionresnetv2", "xception", "fbresnet152", "bninception",
     "cafferesnet101", "pnasnet5large", "polynet"
 ]
+
 def load_moel(model_name):
     if "efficientnet" in model_name:
         model = EfficientNet.from_pretrained(model_name)    
@@ -31,28 +37,26 @@ def load_moel(model_name):
         model = pretrainedmodels.__dict__[model_name](num_classes=1000)
     return model
 
-
-
 option = st.selectbox(
     'Select Model',
      available_models)
-
-'You selected: ', option
-st.text("Loading model....")
 model = load_moel(option)
 model.eval()
-st.text("Complete model loading!")
 
 # load data
+uploaded_file = st.file_uploader("Choose a Image")
 
-img = Image.open("./img/kitten.jpg")
-img_for_plot = np.array(img)
-img = transforms.ToTensor()(img)
-normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                    std=[0.229, 0.224, 0.225])
-img = normalize(img).unsqueeze(dim=0)
-result = model(img).squeeze(dim=0)
-predict_idx = result.argmax().item()
-prob = torch.softmax(result, dim=0)
-st.image(img_for_plot, use_column_width=True)
-st.text(f"{idx2label[predict_idx]}, {prob[predict_idx]}")
+if uploaded_file is not None:
+    bytes_data = uploaded_file.getvalue()
+    image = Image.open(BytesIO(bytes_data)).convert("RGB")
+    img_for_plot = np.array(image)
+    
+    img = transforms.ToTensor()(image)
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                        std=[0.229, 0.224, 0.225])
+    img = normalize(img).unsqueeze(dim=0)   
+    result = model(img).squeeze(dim=0)
+    predict_idx = result.argmax().item()
+    prob = torch.softmax(result, dim=0)
+    st.image(img_for_plot, use_column_width=True)
+    st.text(f"{idx2label[predict_idx]}, {prob[predict_idx]}")
