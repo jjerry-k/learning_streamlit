@@ -11,8 +11,10 @@ pip install Pillow streamlit torch torchvision pretrainedmodels efficientnet_pyt
 
 - [02_classification_test.py](https://github.com/jjerry-k/learning_streamlit/02_classification_test.py) 실행 결과
 
-![result](fig/result.gif)
+![result](fig/result_test.gif)
 
 ### Pytorch Model Zoo
 
-- 준비중
+- [03_pytorch_model_zoo.py](https://github.com/jjerry-k/learning_streamlit/03_pytorch_model_zoo.py) 실행 결과
+
+![result](fig/result_model_zoo.png)
